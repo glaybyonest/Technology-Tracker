@@ -117,3 +117,51 @@
     padding: 15px;
   }
 }
+ /* Добавляем в конец файла */
+
+.action-badge {
+  background: rgba(255, 255, 255, 0.3);
+  padding: 3px 10px;
+  border-radius: 15px;
+  font-size: 0.85em;
+  font-weight: normal;
+  margin-left: 8px;
+}
+
+.stats-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 15px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+}
+
+.stats-row span {
+  font-size: 0.95em;
+  color: #555;
+}
+
+.stats-row strong {
+  color: #2c3e50;
+  font-size: 1.1em;
+}
+
+.hint {
+  margin: 0;
+  color: #546e7a;
+  font-size: 0.95em;
+  line-height: 1.5;
+  padding: 10px 15px;
+  background: #e3f2fd;
+  border-radius: 8px;
+  border-left: 4px solid #2196f3;
+}
+
+@media (max-width: 768px) {
+  .stats-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+}

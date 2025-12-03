@@ -86,19 +86,36 @@ function App() {
   };
 
   const handleRandomSelect = (techId) => {
-    // Прокручиваем к выбранной технологии
+    // Обновляем статус выбранной технологии:
+    // если было 'not-started' -> 'in-progress', если 'in-progress' -> 'completed'
+    setTechnologies(prevTechs =>
+      prevTechs.map(t =>
+        t.id === techId
+          ? {
+              ...t,
+              status:
+                t.status === 'not-started'
+                  ? 'in-progress'
+                  : t.status === 'in-progress'
+                  ? 'completed'
+                  : t.status,
+            }
+          : t
+      )
+    );
+
+    // Прокручиваем к выбранной технологии и показываем подсветку
     const element = document.getElementById(`tech-${techId}`);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      
-      // Визуальный эффект выделения
       element.classList.add('highlighted');
       setTimeout(() => {
         element.classList.remove('highlighted');
       }, 2000);
     }
-    
-    alert(`Следующая технология для изучения: ${technologies.find(t => t.id === techId)?.title}`);
+
+    const chosen = technologies.find(t => t.id === techId) || {};
+    alert(`Выбранная технология: ${chosen.title || '—'}`);
   };
 
   return (
