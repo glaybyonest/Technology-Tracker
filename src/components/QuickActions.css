@@ -165,3 +165,113 @@
     gap: 8px;
   }
 }
+/* Добавляем в существующий CSS */
+
+/* Стиль для disabled кнопки */
+.action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.action-btn:disabled:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Статистика внутри quick-actions */
+.stats-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.stat-label {
+  font-size: 0.85em;
+  color: #6c757d;
+  margin-bottom: 5px;
+}
+
+.stat-value {
+  font-size: 1.4em;
+  font-weight: bold;
+  padding: 4px 12px;
+  border-radius: 20px;
+  min-width: 40px;
+  text-align: center;
+}
+
+.stat-value.not-started {
+  color: #e74c3c;
+  background: rgba(231, 76, 60, 0.1);
+}
+
+.stat-value.in-progress {
+  color: #f39c12;
+  background: rgba(243, 156, 18, 0.1);
+}
+
+.stat-value.completed {
+  color: #27ae60;
+  background: rgba(39, 174, 96, 0.1);
+}
+
+/* Блок с подсказкой */
+.hint-box {
+  background: #e3f2fd;
+  border-radius: 10px;
+  padding: 15px;
+  border-left: 4px solid #2196f3;
+  margin-top: 15px;
+}
+
+.hint {
+  margin: 0;
+  color: #1976d2;
+  font-size: 0.9em;
+  line-height: 1.5;
+}
+
+.hint strong {
+  color: #0d47a1;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.hint br {
+  display: block;
+  margin: 5px 0;
+}
+
+@media (max-width: 768px) {
+  .stats-row {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .stat-item {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .stat-label {
+    margin-bottom: 0;
+  }
+  
+  .hint {
+    font-size: 0.85em;
+  }
+}
