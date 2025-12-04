@@ -5,76 +5,20 @@ import TechnologyCard from './components/TechnologyCard';
 import QuickActions from './components/QuickActions';
 import FilterButtons from './components/FilterButtons';
 import TechnologyNotes from './components/TechnologyNotes';
+import useTechnologies from './hooks/useTechnologies';
 
 function App() {
-  const initialTechnologies = [
-    { 
-      id: 1, 
-      title: 'React Components', 
-      description: 'Изучение базовых компонентов React и их жизненного цикла', 
-      status: 'completed',
-      category: 'frontend',
-      notes: ''
-    },
-    { 
-      id: 2, 
-      title: 'JSX Syntax', 
-      description: 'Освоение синтаксиса JSX и его особенностей', 
-      status: 'in-progress',
-      category: 'frontend',
-      notes: ''
-    },
-    { 
-      id: 3, 
-      title: 'State Management', 
-      description: 'Работа с состоянием компонентов и управление данными', 
-      status: 'not-started',
-      category: 'frontend',
-      notes: ''
-    },
-    { 
-      id: 4, 
-      title: 'React Hooks', 
-      description: 'Изучение хуков useState, useEffect и создание собственных хуков', 
-      status: 'in-progress',
-      category: 'frontend',
-      notes: ''
-    },
-    { 
-      id: 5, 
-      title: 'React Router', 
-      description: 'Настройка маршрутизации в React приложениях', 
-      status: 'not-started',
-      category: 'frontend',
-      notes: ''
-    },
-  ];
-
-  const [technologies, setTechnologies] = useState(() => {
-    // Загружаем из localStorage при инициализации состояния
-    const saved = localStorage.getItem('techTrackerData');
-    if (saved) {
-      try {
-        const parsedData = JSON.parse(saved);
-        console.log('Данные загружены из localStorage:', parsedData);
-        return parsedData;
-      } catch (error) {
-        console.error('Ошибка при загрузке данных:', error);
-        return initialTechnologies;
-      }
-    }
-    return initialTechnologies;
-  });
+  const { 
+    technologies, 
+    updateStatus, 
+    updateNotes, 
+    markAllCompleted, 
+    resetAll 
+  } = useTechnologies();
 
   const [activeFilter, setActiveFilter] = useState('all');
   const [filteredTechnologies, setFilteredTechnologies] = useState(technologies);
   const [searchQuery, setSearchQuery] = useState('');
-
-  // Автосохранение в localStorage при изменении technologies
-  useEffect(() => {
-    localStorage.setItem('techTrackerData', JSON.stringify(technologies));
-    console.log('Данные сохранены в localStorage:', technologies);
-  }, [technologies]);
 
   // Фильтрация технологий
   useEffect(() => {
@@ -96,60 +40,22 @@ function App() {
     setFilteredTechnologies(result);
   }, [activeFilter, technologies, searchQuery]);
 
-  // Функция обновления заметок
-  const updateTechnologyNotes = (techId, newNotes) => {
-    console.log('Обновление заметок для ID:', techId, 'Новые заметки:', newNotes);
-    setTechnologies(prevTechs =>
-      prevTechs.map(tech =>
-        tech.id === techId ? { ...tech, notes: newNotes } : tech
-      )
-    );
-  };
-
-  // Изменение статуса технологии
-  const handleStatusChange = (id, newStatus) => {
-    setTechnologies(prevTechs => 
-      prevTechs.map(tech => 
-        tech.id === id ? { ...tech, status: newStatus } : tech
-      )
-    );
-  };
-
   // Быстрые действия
   const handleMarkAllCompleted = () => {
     if (window.confirm('Отметить все технологии как завершенные?')) {
-      setTechnologies(prevTechs => 
-        prevTechs.map(tech => ({ ...tech, status: 'completed' }))
-      );
+      markAllCompleted();
     }
   };
 
   const handleResetAll = () => {
     if (window.confirm('Сбросить статусы всех технологий?')) {
-      setTechnologies(prevTechs => 
-        prevTechs.map(tech => ({ ...tech, status: 'not-started' }))
-      );
+      resetAll();
     }
   };
 
   const handleRandomSelect = (techId) => {
-    setTechnologies(prevTechs =>
-      prevTechs.map(t =>
-        t.id === techId
-          ? {
-              ...t,
-              status:
-                t.status === 'not-started'
-                  ? 'in-progress'
-                  : t.status === 'in-progress'
-                  ? 'completed'
-                  : t.status,
-            }
-          : t
-      )
-    );
-
-    // Прокручиваем к выбранной технологии
+    updateStatus(techId, 'in-progress');
+    
     setTimeout(() => {
       const element = document.getElementById(`tech-${techId}`);
       if (element) {
@@ -235,7 +141,7 @@ function App() {
                     title={tech.title}
                     description={tech.description}
                     status={tech.status}
-                    onStatusChange={handleStatusChange}
+                    onStatusChange={updateStatus}
                   />
                 </div>
 
@@ -243,7 +149,7 @@ function App() {
                   techId={tech.id}
                   title={tech.title}
                   notes={tech.notes}
-                  onNotesChange={updateTechnologyNotes}
+                  onNotesChange={updateNotes}
                 />
               </div>
             ))}

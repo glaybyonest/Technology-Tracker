@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import Modal from './Modal';
 import './QuickActions.css';
 
 function QuickActions({ 
@@ -6,6 +8,7 @@ function QuickActions({
   onRandomSelect,
   technologies 
 }) {
+  const [showExportModal, setShowExportModal] = useState(false);
   
   const handleRandomSelect = () => {
     if (!technologies || technologies.length === 0) {
@@ -17,22 +20,17 @@ function QuickActions({
     const notStartedTechs = technologies.filter(t => t.status === 'not-started');
     
     if (notStartedTechs.length > 0) {
-      // Выбираем случайную технологию из не начатых
       const randomIndex = Math.floor(Math.random() * notStartedTechs.length);
       const randomTech = notStartedTechs[randomIndex];
       
-      // Меняем статус с 'not-started' на 'in-progress'
       if (onRandomSelect) {
         onRandomSelect(randomTech.id);
       }
       
-      // Прокручиваем к выбранной технологии
       setTimeout(() => {
         const element = document.getElementById(`tech-${randomTech.id}`);
         if (element) {
           element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          
-          // Визуальный эффект выделения
           element.classList.add('highlighted');
           setTimeout(() => {
             element.classList.remove('highlighted');
@@ -41,25 +39,32 @@ function QuickActions({
       }, 100);
       
       alert(`Технология "${randomTech.title}" переведена в статус "В процессе"!`);
-      
     } else {
-      // 2. Если все технологии уже начаты (нет 'not-started')
-      // Проверяем, есть ли вообще технологии
-      const inProgressTechs = technologies.filter(t => t.status === 'in-progress');
-      const completedTechs = technologies.filter(t => t.status === 'completed');
-      
-      if (inProgressTechs.length > 0 || completedTechs.length > 0) {
-        alert('🎯 Все технологии для изучения уже начаты!\n\n' +
-              `В процессе: ${inProgressTechs.length}\n` +
-              `Завершено: ${completedTechs.length}\n\n` +
-              'Можете продолжить изучение или отметить некоторые как завершенные.');
-      } else {
-        alert('Не найдено технологий с подходящим статусом');
-      }
+      alert('🎯 Все технологии для изучения уже начаты!');
     }
   };
 
-  // Подсчитываем статистику для отображения
+  const handleExport = () => {
+    const data = {
+      exportedAt: new Date().toISOString(),
+      technologies: technologies
+    };
+    const dataStr = JSON.stringify(data, null, 2);
+    
+    // Создание и скачивание файла
+    const blob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `технологии_экспорт_${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    setShowExportModal(true);
+  };
+
   const notStartedCount = technologies.filter(t => t.status === 'not-started').length;
   const inProgressCount = technologies.filter(t => t.status === 'in-progress').length;
   const completedCount = technologies.filter(t => t.status === 'completed').length;
@@ -97,6 +102,15 @@ function QuickActions({
           <span className="action-text">Случайный выбор</span>
           <span className="action-badge">{notStartedCount}</span>
         </button>
+        
+        <button 
+          className="action-btn export-data"
+          onClick={handleExport}
+          title="Экспорт данных в JSON"
+        >
+          <span className="action-icon">📤</span>
+          <span className="action-text">Экспорт данных</span>
+        </button>
       </div>
       
       <div className="stats-summary">
@@ -115,6 +129,23 @@ function QuickActions({
           </div>
         </div>
       </div>
+      
+      <Modal
+        isOpen={showExportModal}
+        onClose={() => setShowExportModal(false)}
+        title="Экспорт данных"
+      >
+        <p>Данные успешно экспортированы!</p>
+        <p>Файл был скачан на ваш компьютер.</p>
+        <div className="modal-actions">
+          <button 
+            className="modal-btn"
+            onClick={() => setShowExportModal(false)}
+          >
+            Закрыть
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 }
