@@ -23,7 +23,7 @@ function QuickActions({
       
       // Меняем статус с 'not-started' на 'in-progress'
       if (onRandomSelect) {
-        onRandomSelect(randomTech.id, 'in-progress');
+        onRandomSelect(randomTech.id);
       }
       
       // Прокручиваем к выбранной технологии
@@ -114,10 +114,8 @@ function QuickActions({
             <span className="stat-value completed">{completedCount}</span>
           </div>
         </div>
-        
-        
-        </div>
       </div>
+    </div>
   );
 }
 

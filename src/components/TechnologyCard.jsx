@@ -10,7 +10,7 @@ function TechnologyCard({
 }) {
   const [isHovered, setIsHovered] = useState(false);
 
-  const handleClick = () => {
+  const handleCardClick = () => {
     const statusOrder = ['not-started', 'in-progress', 'completed'];
     const currentIndex = statusOrder.indexOf(status);
     const nextIndex = (currentIndex + 1) % statusOrder.length;
@@ -24,12 +24,13 @@ function TechnologyCard({
   return (
     <div 
       className={`technology-card status-${status} ${isHovered ? 'hovered' : ''}`}
-      onClick={handleClick}
+      onClick={handleCardClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <h3>{title}</h3>
       <p>{description}</p>
+      
       <div className="status-section">
         <div className="status-indicator">
           <span className="status-label">Статус:</span>
