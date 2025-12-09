@@ -1,39 +1,40 @@
 import { useState } from 'react';
+import './RoadmapImporter.css';
 
 function RoadmapImporter() {
   const [importing, setImporting] = useState(false);
 
-  const handleImport = async () => {
+  const handleImportRoadmap = async () => {
     try {
       setImporting(true);
       
       // Имитация API запроса
       await new Promise(resolve => setTimeout(resolve, 1500));
       
-      // Примерные данные для импорта
+      // Пример данных для импорта
       const roadmapData = [
         {
           id: Date.now() + 1,
-          title: 'Next.js',
-          description: 'React фреймворк для продакшена',
+          title: 'GraphQL',
+          description: 'Язык запросов для API',
           status: 'not-started',
-          category: 'frontend',
+          category: 'backend',
           notes: ''
         },
         {
           id: Date.now() + 2,
-          title: 'TypeScript',
-          description: 'Типизированный JavaScript',
+          title: 'Kubernetes',
+          description: 'Оркестрация контейнеров',
           status: 'not-started',
-          category: 'frontend',
+          category: 'devops',
           notes: ''
         },
         {
           id: Date.now() + 3,
-          title: 'Docker',
-          description: 'Контейнеризация приложений',
+          title: 'WebSocket',
+          description: 'Протокол для двусторонней связи',
           status: 'not-started',
-          category: 'devops',
+          category: 'backend',
           notes: ''
         }
       ];
@@ -43,10 +44,10 @@ function RoadmapImporter() {
       const updated = [...existing, ...roadmapData];
       localStorage.setItem('techTrackerData', JSON.stringify(updated));
       
-      alert(`Успешно импортировано ${roadmapData.length} технологий!`);
+      alert(`✅ Успешно импортировано ${roadmapData.length} технологий!`);
       window.location.reload();
     } catch (err) {
-      alert('Ошибка импорта');
+      alert(`❌ Ошибка импорта: ${err.message}`);
     } finally {
       setImporting(false);
     }
@@ -54,15 +55,28 @@ function RoadmapImporter() {
 
   return (
     <div className="roadmap-importer">
-      <h4>🌐 Импорт дорожной карты</h4>
-      <button 
-        onClick={handleImport} 
-        disabled={importing}
-        className="btn btn-secondary"
-      >
-        {importing ? 'Импорт...' : 'Импортировать пример'}
-      </button>
-      <p className="hint">Добавит примерные технологии к вашим существующим</p>
+      <h3>🌐 Импорт дорожной карты</h3>
+      
+      <div className="import-content">
+        <p>Импортируйте готовый набор технологий для изучения. Это добавит новые технологии к вашим существующим.</p>
+        
+        <button
+          onClick={handleImportRoadmap}
+          disabled={importing}
+          className="import-btn"
+        >
+          {importing ? '⏳ Импорт...' : '📥 Импортировать пример'}
+        </button>
+        
+        <div className="import-details">
+          <h4>Что будет импортировано:</h4>
+          <ul>
+            <li>GraphQL - Язык запросов для API</li>
+            <li>Kubernetes - Оркестрация контейнеров</li>
+            <li>WebSocket - Протокол для двусторонней связи</li>
+          </ul>
+        </div>
+      </div>
     </div>
   );
 }

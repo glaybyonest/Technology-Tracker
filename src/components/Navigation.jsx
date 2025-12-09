@@ -16,7 +16,7 @@ function Navigation() {
         <li>
           <Link
             to="/"
-            className={location.pathname === '/' ? 'active' : ''}
+            className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
           >
             Главная
           </Link>
@@ -24,7 +24,7 @@ function Navigation() {
         <li>
           <Link
             to="/technologies"
-            className={location.pathname.startsWith('/technologies') ? 'active' : ''}
+            className={`nav-link ${location.pathname.startsWith('/technologies') ? 'active' : ''}`}
           >
             Все технологии
           </Link>
@@ -32,7 +32,7 @@ function Navigation() {
         <li>
           <Link
             to="/statistics"
-            className={location.pathname === '/statistics' ? 'active' : ''}
+            className={`nav-link ${location.pathname === '/statistics' ? 'active' : ''}`}
           >
             Статистика
           </Link>
@@ -40,7 +40,7 @@ function Navigation() {
         <li>
           <Link
             to="/settings"
-            className={location.pathname === '/settings' ? 'active' : ''}
+            className={`nav-link ${location.pathname === '/settings' ? 'active' : ''}`}
           >
             Настройки
           </Link>

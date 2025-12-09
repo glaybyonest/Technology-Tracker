@@ -450,3 +450,49 @@ body {
   text-align: center;
   padding: 40px;
 }
+/* Стили для маршрутизации и навигации */
+.controls-section {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 25px;
+  margin-bottom: 25px;
+}
+
+@media (max-width: 1200px) {
+  .controls-section {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Стили для подвала */
+.app-footer {
+  text-align: center;
+  padding: 20px;
+  color: #7f8c8d;
+  font-size: 0.9em;
+  background: white;
+  border-radius: 10px;
+  margin-top: 30px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Стили для загрузки */
+.loading-state {
+  text-align: center;
+  padding: 60px;
+}
+
+.spinner {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #3498db;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
