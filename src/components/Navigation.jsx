@@ -31,6 +31,30 @@ function Navigation() {
         </li>
         <li>
           <Link
+            to="/add-technology"
+            className={`nav-link ${location.pathname === '/add-technology' ? 'active' : ''}`}
+          >
+            ➕ Добавить
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/bulk-edit"
+            className={`nav-link ${location.pathname === '/bulk-edit' ? 'active' : ''}`}
+          >
+            📋 Массовое редактирование
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/import-export"
+            className={`nav-link ${location.pathname === '/import-export' ? 'active' : ''}`}
+          >
+            📁 Импорт/Экспорт
+          </Link>
+        </li>
+        <li>
+          <Link
             to="/statistics"
             className={`nav-link ${location.pathname === '/statistics' ? 'active' : ''}`}
           >
