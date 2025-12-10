@@ -5,7 +5,6 @@ import {
   Toolbar,
   Typography,
   IconButton,
-  Badge,
   Tabs,
   Tab,
   Card,
@@ -16,7 +15,7 @@ import {
   ListItemText,
   LinearProgress,
   Container
-} from '@mui/material';писа
+} from '@mui/material';
 import {
   Notifications as NotificationsIcon,
   CheckCircle as CheckCircleIcon,
@@ -37,7 +36,6 @@ function TabPanel({ children, value, index }) {
 
 function Dashboard({ technologies, onThemeToggle, isDarkMode, onNotify }) {
   const [tabValue, setTabValue] = React.useState(0);
-  const [notificationCount] = React.useState(3);
 
   // расчет статистики на основе массива technologies
   const stats = {
@@ -74,10 +72,9 @@ function Dashboard({ technologies, onThemeToggle, isDarkMode, onNotify }) {
           <IconButton
             color="inherit"
             onClick={() => onNotify && onNotify({ message: 'Нет новых уведомлений', title: 'Уведомления', type: 'info' })}
+            aria-label="Уведомления"
           >
-            <Badge badgeContent={notificationCount} color="error">
-              <NotificationsIcon />
-            </Badge>
+            <NotificationsIcon />
           </IconButton>
         </Toolbar>
       </AppBar>

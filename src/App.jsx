@@ -255,7 +255,7 @@ function App() {
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <CssBaseline />
-      <Router basename={import.meta.env.BASE_URL}>
+      <Router basename={import.meta.env.BASE_URL || '/'}>
         <Box sx={{ minHeight: '100vh', backgroundColor: 'background.default' }}>
           <Navigation />
 
