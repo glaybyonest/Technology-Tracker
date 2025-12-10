@@ -11,6 +11,12 @@ import {
 
 // компонент карточки технологии с использованием Material-UI
 function SimpleTechCard({ technology, onStatusChange }) {
+  // helper to compute next status in cycle
+  const getNextStatus = (status) => {
+    if (status === 'not-started') return 'in-progress';
+    if (status === 'in-progress') return 'completed';
+    return 'not-started';
+  };
   // функция определения цвета чипа в зависимости от статуса
   const getStatusColor = (status) => {
     switch (status) {
@@ -36,7 +42,17 @@ function SimpleTechCard({ technology, onStatusChange }) {
   };
 
   return (
-    <Card sx={{ maxWidth: 345, margin: 2, boxShadow: 3, transition: 'all 0.3s ease', '&:hover': { boxShadow: 6, transform: 'translateY(-4px)' } }}>
+    <Card
+      sx={{
+        maxWidth: 345,
+        margin: 2,
+        boxShadow: 3,
+        transition: 'all 0.3s ease',
+        '&:hover': { boxShadow: 6, transform: 'translateY(-4px)' },
+        cursor: 'pointer'
+      }}
+      onClick={() => onStatusChange(technology.id, getNextStatus(technology.status))}
+    >
       <CardContent>
         {/* заголовок карточки */}
         <Typography variant="h5" component="h2" gutterBottom sx={{ fontWeight: 600 }}>
@@ -72,7 +88,7 @@ function SimpleTechCard({ technology, onStatusChange }) {
             <Button
               size="small"
               variant="contained"
-              onClick={() => onStatusChange(technology.id, 'completed')}
+              onClick={(e) => { e.stopPropagation(); onStatusChange(technology.id, 'completed'); }}
               sx={{ mr: 1 }}
             >
               Завершить
@@ -82,12 +98,7 @@ function SimpleTechCard({ technology, onStatusChange }) {
           <Button
             size="small"
             variant="outlined"
-            onClick={() =>
-              onStatusChange(
-                technology.id,
-                technology.status === 'in-progress' ? 'not-started' : 'in-progress'
-              )
-            }
+            onClick={(e) => { e.stopPropagation(); onStatusChange(technology.id, technology.status === 'in-progress' ? 'not-started' : 'in-progress'); }}
           >
             {technology.status === 'in-progress' ? 'Приостановить' : 'Начать'}
           </Button>

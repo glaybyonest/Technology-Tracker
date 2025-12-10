@@ -255,7 +255,7 @@ function App() {
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <CssBaseline />
-      <Router>
+      <Router basename={import.meta.env.BASE_URL}>
         <Box sx={{ minHeight: '100vh', backgroundColor: 'background.default' }}>
           <Navigation />
 
@@ -269,6 +269,7 @@ function App() {
                       technologies={technologies}
                       onThemeToggle={toggleTheme}
                       isDarkMode={isDarkMode}
+                      onNotify={(payload) => setNotification({ open: true, ...payload })}
                     />
 
                     <Box sx={{ mt: 6 }}>

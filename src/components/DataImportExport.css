@@ -62,6 +62,11 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  line-height: 1;
 }
 
 .btn-export {
@@ -89,6 +94,15 @@
   color: white;
 }
 
+/* Slightly smaller text for save/load buttons to improve visual balance */
+.btn-save,
+.btn-load {
+  font-size: 12px;
+  padding: 8px 14px;
+  text-transform: none;
+  white-space: nowrap;
+}
+
 .btn-load:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
@@ -113,7 +127,10 @@
   transition: all 0.3s ease;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   text-align: center;
   width: 100%;
   box-sizing: border-box;
@@ -321,6 +338,12 @@
   .file-input-label {
     padding: 10px 16px;
     font-size: 12px;
+  }
+
+  .btn-save,
+  .btn-load {
+    font-size: 11px;
+    padding: 8px 12px;
   }
 
   .drop-zone {

@@ -88,9 +88,8 @@ function ProgressHeader({ technologies }) {
             <div 
               className="progress-fill"
               style={{ width: `${stats.percentage}%` }}
-            >
-              <span className="progress-text">{stats.percentage}%</span>
-            </div>
+            />
+            <span className="progress-text">{stats.percentage}%</span>
           </div>
           <div className="progress-markers">
             <span>0%</span>

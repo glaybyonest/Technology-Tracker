@@ -25,6 +25,7 @@ function DataImportExport() {
         setTechnologies(parsed);
         setStatus('✓ Данные загружены из localStorage');
         setTimeout(() => setStatus(''), 3000);
+        // Не перезагружаем страницу — просто устанавливаем локальное состояние
       }
     } catch (error) {
       setStatus('✗ Ошибка загрузки данных из localStorage');
@@ -34,17 +35,7 @@ function DataImportExport() {
   };
 
   // функция сохранения данных в localStorage
-  const saveToLocalStorage = () => {
-    try {
-      localStorage.setItem('techTrackerData', JSON.stringify(technologies));
-      setStatus('✓ Данные сохранены в localStorage');
-      setTimeout(() => setStatus(''), 3000);
-    } catch (error) {
-      setStatus('✗ Ошибка сохранения данных');
-      console.error('Ошибка сохранения:', error);
-      setTimeout(() => setStatus(''), 3000);
-    }
-  };
+  // функция сохранения данных в localStorage (реализована ниже)
 
   // экспорт данных в JSON-файл
   const exportToJSON = () => {
@@ -130,17 +121,17 @@ function DataImportExport() {
     setIsDragging(false);
 
     const file = e.dataTransfer.files[0];
-    if (file && file.type === 'application/json') {
+            if (file && file.type === 'application/json') {
       // используем ту же логику чтения что и в importFromJSON
       const reader = new FileReader();
-      reader.onload = (event) => {
+            reader.onload = (event) => {
         try {
           const imported = JSON.parse(event.target.result);
           if (Array.isArray(imported)) {
             setTechnologies(imported);
             setStatus(`✓ Импортировано ${imported.length} технологий`);
             setTimeout(() => setStatus(''), 3000);
-            localStorage.setItem('techTrackerData', JSON.stringify(imported));
+                  localStorage.setItem('techTrackerData', JSON.stringify(imported));
           }
         } catch (error) {
           setStatus('✗ Ошибка импорта: неверный формат файла');
@@ -150,6 +141,19 @@ function DataImportExport() {
       reader.readAsText(file);
     } else {
       setStatus('✗ Пожалуйста, выберите JSON файл');
+      setTimeout(() => setStatus(''), 3000);
+    }
+  };
+
+  // Сохранение в localStorage (без перезагрузки страницы)
+  const saveToLocalStorage = () => {
+    try {
+      localStorage.setItem('techTrackerData', JSON.stringify(technologies));
+      setStatus('✓ Данные сохранены в localStorage');
+      setTimeout(() => setStatus(''), 3000);
+    } catch (error) {
+      setStatus('✗ Ошибка сохранения данных');
+      console.error('Ошибка сохранения:', error);
       setTimeout(() => setStatus(''), 3000);
     }
   };

@@ -35,7 +35,7 @@ function TabPanel({ children, value, index }) {
   );
 }
 
-function Dashboard({ technologies, onThemeToggle, isDarkMode }) {
+function Dashboard({ technologies, onThemeToggle, isDarkMode, onNotify }) {
   const [tabValue, setTabValue] = React.useState(0);
   const [notificationCount] = React.useState(3);
 
@@ -71,7 +71,10 @@ function Dashboard({ technologies, onThemeToggle, isDarkMode }) {
           </IconButton>
 
           {/* иконка уведомлений с бейджем */}
-          <IconButton color="inherit">
+          <IconButton
+            color="inherit"
+            onClick={() => onNotify && onNotify({ message: 'Нет новых уведомлений', title: 'Уведомления', type: 'info' })}
+          >
             <Badge badgeContent={notificationCount} color="error">
               <NotificationsIcon />
             </Badge>
