@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './TechnologyForm.css';
 
 function TechnologyForm({ onSave, onCancel, initialData = {} }) {
+  const navigate = useNavigate();
   // состояние формы с начальными значениями или данными для редактирования
   const [formData, setFormData] = useState({
     title: initialData.title || '',
@@ -124,7 +126,15 @@ function TechnologyForm({ onSave, onCancel, initialData = {} }) {
         resources: formData.resources.filter(resource => resource.trim() !== '')
       };
 
+      // вызов onSave в App для обновления списка технологий
       onSave(cleanedData);
+
+      // После сохранения переходим на главную страницу, где данные сразу видны
+      try {
+        navigate('/');
+      } catch (err) {
+        // noop
+      }
     }
   };
 

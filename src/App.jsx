@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -369,6 +369,7 @@ function App() {
               }
             />
             <Route path="/contact" element={<WorkingAccessibleForm />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
 
           <Notification
