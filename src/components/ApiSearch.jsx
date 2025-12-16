@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import useDebounce from '../hooks/useDebounce';
 import './ApiSearch.css';
+import { normalizeUrlList } from '../utils/url';
 
 function ApiSearch({ onAddTechnology }) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -99,8 +100,10 @@ function ApiSearch({ onAddTechnology }) {
   }, [debouncedSearchTerm]);
 
   const handleAdd = (tech) => {
+    const normalizedResources = normalizeUrlList(tech.resources || []);
     const techToAdd = {
       ...tech,
+      resources: normalizedResources,
       id: Date.now(),
       status: 'not-started',
       notes: ''
@@ -153,7 +156,7 @@ function ApiSearch({ onAddTechnology }) {
                       <span className="result-difficulty">{tech.difficulty}</span>
                     </div>
                     <div className="result-resources">
-                      <small>Ресурсы: {tech.resources?.join(', ') || 'нет'}</small>
+                      <small>Ресурсы: {normalizeUrlList(tech.resources || []).join(', ') || 'нет'}</small>
                     </div>
                   </div>
                   <button

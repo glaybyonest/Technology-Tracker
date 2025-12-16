@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './TechnologyForm.css';
+import { isValidUrlLike, normalizeUrlList } from '../utils/url';
 
 function TechnologyForm({ onSave, onCancel, initialData = {} }) {
   const navigate = useNavigate();
@@ -53,23 +54,13 @@ function TechnologyForm({ onSave, onCancel, initialData = {} }) {
 
     // валидация URL-адресов ресурсов
     formData.resources.forEach((resource, index) => {
-      if (resource && !isValidUrl(resource)) {
+      if (resource && !isValidUrlLike(resource)) {
         newErrors[`resource_${index}`] = 'Введите корректный URL';
       }
     });
 
     setErrors(newErrors);
     setIsFormValid(Object.keys(newErrors).length === 0);
-  };
-
-  // проверка корректности URL
-  const isValidUrl = (string) => {
-    try {
-      new URL(string);
-      return true;
-    } catch (_) {
-      return false;
-    }
   };
 
   // запуск валидации при каждом изменении formData
@@ -120,10 +111,11 @@ function TechnologyForm({ onSave, onCancel, initialData = {} }) {
     e.preventDefault();
 
     if (isFormValid) {
-      // очищаем пустые ресурсы перед сохранением
+      // очищаем пустые ресурсы перед сохранением и убираем протокол
+      const cleanedResources = normalizeUrlList(formData.resources);
       const cleanedData = {
         ...formData,
-        resources: formData.resources.filter(resource => resource.trim() !== '')
+        resources: cleanedResources
       };
 
       // вызов onSave в App для обновления списка технологий
@@ -246,10 +238,11 @@ function TechnologyForm({ onSave, onCancel, initialData = {} }) {
         {formData.resources.map((resource, index) => (
           <div key={index} className="resource-field">
             <input
-              type="url"
+              type="text"
+              inputMode="url"
               value={resource}
               onChange={(e) => handleResourceChange(index, e.target.value)}
-              placeholder="https://example.com"
+              placeholder="example.com"
               className={errors[`resource_${index}`] ? 'error' : ''}
               aria-describedby={errors[`resource_${index}`] ? `resource-${index}-error` : undefined}
             />

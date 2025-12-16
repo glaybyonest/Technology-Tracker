@@ -107,6 +107,7 @@ function BulkEditTechnologies({ technologies = [], onUpdate }) {
                   <span className="tech-meta">
                     <span className={`badge status-${tech.status}`}>{tech.status}</span>
                     <span className="badge category">{tech.category}</span>
+                    <span className="badge difficulty">{tech.difficulty || '—'}</span>
                   </span>
                 </label>
               </div>
@@ -152,7 +153,10 @@ function BulkEditTechnologies({ technologies = [], onUpdate }) {
           </div>
 
           <div className="option-group">
-            <label htmlFor="bulk-difficulty">Новый уровень сложности (необязательно)</label>
+            <label htmlFor="bulk-difficulty">
+              <span className="label-icon" aria-hidden="true">🎚️</span>
+              Новый уровень сложности (необязательно)
+            </label>
             <select
               id="bulk-difficulty"
               value={newDifficulty}

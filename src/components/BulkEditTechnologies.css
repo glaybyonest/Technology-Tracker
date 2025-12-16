@@ -157,6 +157,11 @@
   color: #4338ca;
 }
 
+.badge.difficulty {
+  background: #f3e8ff;
+  color: #7c3aed;
+}
+
 .no-items {
   text-align: center;
   color: #999;
@@ -187,6 +192,12 @@
   font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+.label-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 6px;
 }
 
 .option-group select {
