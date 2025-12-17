@@ -14,6 +14,8 @@ import QuickActions from './components/QuickActions';
 import FilterButtons from './components/FilterButtons';
 import TechnologyNotes from './components/TechnologyNotes';
 import Navigation from './components/Navigation';
+import Login from './pages/Login';
+import UserProfile from './pages/UserProfile';
 import TechnologyList from './pages/TechnologyList';
 import TechnologyDetail from './pages/TechnologyDetail';
 import Statistics from './pages/Statistics';
@@ -28,6 +30,8 @@ import BulkEditTechnologies from './components/BulkEditTechnologies';
 function App() {
   const { isDarkMode, toggleTheme } = useTheme();
   const [notification, setNotification] = useState({ open: false, message: '', title: '', type: 'info' });
+  const [isLoggedIn, setIsLoggedIn] = useState(() => localStorage.getItem('isLoggedIn') === 'true');
+  const [username, setUsername] = useState(() => localStorage.getItem('username') || '');
 
   const initialTechnologies = [
     {
@@ -134,6 +138,18 @@ function App() {
         tech.id === techId ? { ...tech, notes: newNotes } : tech
       )
     );
+  };
+
+  const handleLogin = (usernameFromForm) => {
+    setIsLoggedIn(true);
+    setUsername(usernameFromForm);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setUsername('');
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('username');
   };
 
   const handleStatusChange = (id, newStatus) => {
@@ -257,7 +273,7 @@ function App() {
       <CssBaseline />
       <Router basename={import.meta.env.BASE_URL || '/'}>
         <Box sx={{ minHeight: '100vh', backgroundColor: 'background.default' }}>
-          <Navigation />
+          <Navigation isLoggedIn={isLoggedIn} username={username} onLogout={handleLogout} />
 
           <Routes>
             <Route
@@ -369,6 +385,13 @@ function App() {
               }
             />
             <Route path="/contact" element={<WorkingAccessibleForm />} />
+            <Route
+              path="/users/:userId"
+              element={
+                isLoggedIn ? <UserProfile /> : <Navigate to="/login" replace />
+              }
+            />
+            <Route path="/login" element={<Login onLogin={handleLogin} />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
 

@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import './Navigation.css';
 
-function Navigation() {
+function Navigation({ isLoggedIn, username, onLogout }) {
   const location = useLocation();
 
   return (
@@ -68,6 +68,34 @@ function Navigation() {
           >
             Настройки
           </Link>
+        </li>
+        {isLoggedIn && (
+          <li>
+            <Link
+              to="/users/1"
+              className={`nav-link ${location.pathname.startsWith('/users') ? 'active' : ''}`}
+            >
+              Профиль
+            </Link>
+          </li>
+        )}
+        <li>
+          {isLoggedIn ? (
+            <button
+              type="button"
+              className="nav-link nav-button"
+              onClick={onLogout}
+            >
+              Выйти ({username || 'пользователь'})
+            </button>
+          ) : (
+            <Link
+              to="/login"
+              className={`nav-link ${location.pathname === '/login' ? 'active' : ''}`}
+            >
+              Войти
+            </Link>
+          )}
         </li>
       </ul>
     </nav>

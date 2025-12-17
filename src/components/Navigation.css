@@ -39,6 +39,24 @@
   position: relative;
 }
 
+.nav-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-button:active {
+  transform: translateY(1px);
+}
+
 .nav-link:hover {
   background: rgba(255, 255, 255, 0.1);
 }
